@@ -83,15 +83,14 @@ ingredients_list = st.multiselect('Choose up to 5 ingredients:', fruit_options, 
 
 # Display selected ingredients
 if ingredients_list:
-    # st.write("Selected ingredients:")
-    # for ingredient in ingredients_list:
-    #     # st.write("- " + ingredient)
+    for fruits_chosen in ingredients_list:
+        ingredients_string = ', '.join(ingredients_list)
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
 
     # Button to submit smoothie order
     time_to_insert = st.button('Submit Order')
     if time_to_insert and name_on_order:
-        ingredients_string = ', '.join(ingredients_list)
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        
         # st.text(fruityvice_response.json())
         fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
 
