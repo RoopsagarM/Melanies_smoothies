@@ -59,6 +59,7 @@
 import streamlit as st
 # from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests
 
 # Set up Streamlit app title and initial instructions
 st.title(":cup_with_straw: Customize Your Smoothie :cup_with_straw:")
@@ -90,6 +91,9 @@ if ingredients_list:
     time_to_insert = st.button('Submit Order')
     if time_to_insert and name_on_order:
         ingredients_string = ', '.join(ingredients_list)
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        # st.text(fruityvice_response.json())
+        fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
 
         # SQL INSERT INTO statement to insert order into Snowflake table
         my_insert_stmt = f"""
@@ -104,7 +108,5 @@ if ingredients_list:
             st.error(f'Error submitting order: {str(e)}')
 
 
-import requests
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-# st.text(fruityvice_response.json())
-fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
+
+
